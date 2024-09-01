@@ -65,7 +65,7 @@ public class IceAndFire {
             MessageMultipartInteract.class, MessageGetMyrmexHive.class, MessageSetMyrmexHiveNull.class,
             MessagePlayerHitMultipart.class, MessageChainLightningFX.class, MessageEntityEffect.class,
             MessageResetEntityEffect.class, MessageParticleFX.class, MessageParticleVanillaFX.class,
-            MessageUpdateRidingState.class, MessageSwingArm.class
+            MessageUpdateRidingState.class, MessageSwingArm.class, MessageUpdateSpawner.class
     })
     public static SimpleNetworkWrapper NETWORK_WRAPPER;
     @SidedProxy(clientSide = "com.github.alexthe666.iceandfire.ClientProxy", serverSide = "com.github.alexthe666.iceandfire.CommonProxy")
@@ -78,7 +78,6 @@ public class IceAndFire {
     public static DamageSource dragonLightning;
     public static DamageSource gorgon;
     public static Biome GLACIER;
-    public static Potion FROZEN_POTION;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

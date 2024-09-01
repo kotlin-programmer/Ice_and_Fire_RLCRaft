@@ -8,7 +8,9 @@ import com.github.alexthe666.iceandfire.entity.EntityMyrmexBase;
 import com.github.alexthe666.iceandfire.entity.EntityMyrmexSentinel;
 import com.github.alexthe666.iceandfire.entity.EntityPixie;
 import com.github.alexthe666.iceandfire.entity.EntitySeaSerpent;
+import com.github.alexthe666.iceandfire.entity.tile.SpawnerBaseLogic;
 import com.github.alexthe666.iceandfire.entity.tile.TileEntityMonsterSpawner;
+import com.github.alexthe666.iceandfire.entity.tile.TileEntitySpawnerBase;
 import com.github.alexthe666.iceandfire.entity.util.EntityDreadMob;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,9 +19,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 
-public class RenderMobSpawner extends TileEntitySpecialRenderer<TileEntityMobSpawner> {
+public class RenderMobSpawner extends TileEntitySpecialRenderer<TileEntitySpawnerBase> {
 
-    public static void renderMob(MobSpawnerBaseLogic mobSpawnerLogic, double posX, double posY, double posZ, float partialTicks) {
+    public static void renderMob(SpawnerBaseLogic mobSpawnerLogic, double posX, double posY, double posZ, float partialTicks) {
         Entity entity = mobSpawnerLogic.getCachedEntity();
 
         if (entity != null) {
@@ -62,7 +64,7 @@ public class RenderMobSpawner extends TileEntitySpecialRenderer<TileEntityMobSpa
     }
 
     @Override
-    public void render(TileEntityMobSpawner te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(TileEntitySpawnerBase te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y, (float) z + 0.5F);
         renderMob(te.getSpawnerBaseLogic(), x, y, z, partialTicks);

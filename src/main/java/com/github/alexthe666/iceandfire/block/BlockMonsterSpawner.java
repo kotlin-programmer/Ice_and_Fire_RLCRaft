@@ -8,6 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.util.Random;
+
 public class BlockMonsterSpawner extends BlockMobSpawner {
 
     public BlockMonsterSpawner() {
@@ -20,8 +22,7 @@ public class BlockMonsterSpawner extends BlockMobSpawner {
         GameRegistry.registerTileEntity(TileEntityMonsterSpawner.class, "monster_spawner");
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityMonsterSpawner();
     }
 }

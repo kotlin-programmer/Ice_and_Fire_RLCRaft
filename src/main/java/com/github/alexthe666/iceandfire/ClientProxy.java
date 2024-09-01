@@ -448,6 +448,9 @@ public class ClientProxy extends CommonProxy {
 			case GHOST_APPEARANCE:
 				particle = new ParticleGhostAppearance(world, x, y, z);
 				break;
+			case REDSTONE:
+				particle = new ParticleRedstone.Factory().createParticle(0, world, x, y, z, motX, motY, motZ);
+				break;
 			default:
 				particle = new ParticleSmokeNormal.Factory().createParticle(0, world, x, y, z, motX, motY, motZ);
 		}

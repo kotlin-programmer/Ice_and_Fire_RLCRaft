@@ -12,8 +12,7 @@ import com.github.alexthe666.iceandfire.core.ModPotions;
 import com.github.alexthe666.iceandfire.entity.*;
 import com.github.alexthe666.iceandfire.entity.ai.EntitySheepAIFollowCyclops;
 import com.github.alexthe666.iceandfire.entity.ai.VillagerAIFearUntamed;
-import com.github.alexthe666.iceandfire.entity.tile.TileEntityDreadSpawner;
-import com.github.alexthe666.iceandfire.entity.tile.TileEntityMonsterSpawner;
+import com.github.alexthe666.iceandfire.entity.tile.TileEntitySpawnerBase;
 import com.github.alexthe666.iceandfire.entity.util.*;
 import com.github.alexthe666.iceandfire.integration.CompatLoadUtil;
 import com.github.alexthe666.iceandfire.item.ItemGhostSword;
@@ -51,6 +50,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
@@ -486,14 +486,8 @@ public class EventLiving {
 		ItemStack stack = event.getItemStack();
 		if (!stack.isEmpty() && stack.getItem() instanceof ItemMonsterPlacer && event.getEntityPlayer().isCreative() && (block instanceof BlockDreadSpawner || block instanceof BlockMonsterSpawner)) {
 			TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
-			if (tileEntity instanceof TileEntityDreadSpawner) {
-				MobSpawnerBaseLogic mobSpawnerBaseLogic = ((TileEntityDreadSpawner) tileEntity).getSpawnerBaseLogic();
-				mobSpawnerBaseLogic.setEntityId(getNamedIdFrom(stack));
-				tileEntity.markDirty();
-				event.getWorld().notifyBlockUpdate(event.getPos(), state, state, 3);
-				event.setCanceled(true);
-			} else if (tileEntity instanceof TileEntityMonsterSpawner) {
-				MobSpawnerBaseLogic mobSpawnerBaseLogic = ((TileEntityMonsterSpawner) tileEntity).getSpawnerBaseLogic();
+			if (tileEntity instanceof TileEntitySpawnerBase) {
+				MobSpawnerBaseLogic mobSpawnerBaseLogic = ((TileEntitySpawnerBase) tileEntity).getSpawnerBaseLogic();
 				mobSpawnerBaseLogic.setEntityId(getNamedIdFrom(stack));
 				tileEntity.markDirty();
 				event.getWorld().notifyBlockUpdate(event.getPos(), state, state, 3);
@@ -518,20 +512,35 @@ public class EventLiving {
 
 	@SubscribeEvent
 	public void onBreakBlock(BlockEvent.BreakEvent event) {
-		if (event.getPlayer() != null && (event.getState().getBlock() == ModBlocks.goldPile || event.getState().getBlock() == ModBlocks.silverPile || event.getState().getBlock() == ModBlocks.diamondPile)) {
+		if (event.getPlayer() == null) {
+			return;
+		}
+		Block block = event.getState().getBlock();
+		EntityPlayer player = event.getPlayer();
+		if (block == ModBlocks.goldPile || block == ModBlocks.silverPile || block == ModBlocks.diamondPile) {
 			float dist = IceAndFireConfig.DRAGON_SETTINGS.dragonGoldSearchLength;
-			List<Entity> list = event.getWorld().getEntitiesWithinAABBExcludingEntity(event.getPlayer(), event.getPlayer().getEntityBoundingBox().expand(dist, dist, dist));
-			list.sort(new EntityAINearestAttackableTarget.Sorter(event.getPlayer()));
+			List<Entity> list = event.getWorld().getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().expand(dist, dist, dist));
+			list.sort(new EntityAINearestAttackableTarget.Sorter(player));
 			if (!list.isEmpty()) {
 				for (Entity entity : list) {
 					if (entity instanceof EntityDragonBase) {
 						EntityDragonBase dragon = (EntityDragonBase) entity;
-						if (!dragon.isTamed() && !dragon.isModelDead() && !dragon.isOwner(event.getPlayer()) && !event.getPlayer().capabilities.isCreativeMode) {
+						if (!dragon.isTamed() && !dragon.isModelDead() && !dragon.isOwner(player) && !player.capabilities.isCreativeMode) {
 							dragon.setSleeping(false);
 							dragon.setSitting(false);
-							dragon.setAttackTarget(event.getPlayer());
+							dragon.setAttackTarget(player);
 						}
 					}
+				}
+			}
+		} else if (block == ModBlocks.monster_spawner || block == ModBlocks.dread_spawner) {
+			World world = event.getWorld();
+			BlockPos pos = event.getPos();
+			TileEntity tileEntity = world.getTileEntity(pos);
+			if (tileEntity instanceof TileEntitySpawnerBase) {
+				int requiredSpawnCount = ((TileEntitySpawnerBase) tileEntity).getRequiredSpawnCount();
+				if (requiredSpawnCount > 0) {
+					event.setCanceled(true);
 				}
 			}
 		}

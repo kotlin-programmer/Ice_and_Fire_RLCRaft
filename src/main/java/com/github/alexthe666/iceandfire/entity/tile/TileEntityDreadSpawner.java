@@ -1,28 +1,26 @@
 package com.github.alexthe666.iceandfire.entity.tile;
 
+import com.github.alexthe666.iceandfire.core.ModBlocks;
 import com.github.alexthe666.iceandfire.enums.EnumParticle;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
-public class TileEntityDreadSpawner extends TileEntityMobSpawner {
+public class TileEntityDreadSpawner extends TileEntitySpawnerBase {
     private final SpawnerBaseLogic spawnerLogic = new SpawnerBaseLogic() {
+
+        @Override
         public void broadcastEvent(int id) {
-            TileEntityDreadSpawner.this.world.addBlockEvent(TileEntityDreadSpawner.this.pos, Blocks.MOB_SPAWNER, id, 0);
+            TileEntityDreadSpawner.this.world.addBlockEvent(TileEntityDreadSpawner.this.pos, ModBlocks.dread_spawner, id, 0);
         }
 
+        @Override
         public World getSpawnerWorld() {
             return TileEntityDreadSpawner.this.world;
         }
 
+        @Override
         public BlockPos getSpawnerPosition() {
             return TileEntityDreadSpawner.this.pos;
         }
@@ -38,65 +36,15 @@ public class TileEntityDreadSpawner extends TileEntityMobSpawner {
 
         @Override
         public EnumParticle getParticle() {
+            if (this.getRequiredSpawnCount() > 0) {
+                return EnumParticle.REDSTONE;
+            }
             return EnumParticle.DREAD_TORCH;
         }
     };
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        this.spawnerLogic.readFromNBT(compound);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        this.spawnerLogic.writeToNBT(compound);
-        return compound;
-    }
-
-    /**
-     * Like the old updateEntity(), except more generic.
-     */
-    @Override
-    public void update() {
-        this.spawnerLogic.updateSpawner();
-    }
-
-    /**
-     * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
-     * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
-     */
-    @Nullable
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
-    }
-
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound nbttagcompound = this.writeToNBT(new NBTTagCompound());
-        nbttagcompound.removeTag("SpawnPotentials");
-        return nbttagcompound;
-    }
-
-    @Override
-    public boolean receiveClientEvent(int id, int type) {
-        return this.spawnerLogic.setDelayToMin(id) || super.receiveClientEvent(id, type);
-    }
-
-    @Override
-    public boolean onlyOpsCanSetNbt() {
-        return true;
-    }
-
-    @Override
-    public void markDirty() {
-        super.markDirty();
-        this.spawnerLogic.setDirty();
-    }
-
-    public MobSpawnerBaseLogic getSpawnerBaseLogic() {
+    public SpawnerBaseLogic getSpawnerBaseLogic() {
         return this.spawnerLogic;
     }
 }

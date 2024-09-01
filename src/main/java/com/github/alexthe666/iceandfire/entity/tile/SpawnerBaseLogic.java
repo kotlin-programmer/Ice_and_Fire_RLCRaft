@@ -5,6 +5,7 @@ import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.github.alexthe666.iceandfire.entity.EntityMyrmexBase;
 import com.github.alexthe666.iceandfire.entity.EntitySeaSerpent;
 import com.github.alexthe666.iceandfire.enums.EnumParticle;
+import com.github.alexthe666.iceandfire.message.MessageUpdateSpawner;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -27,7 +28,6 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
     private final List<WeightedSpawnerEntity> potentialSpawns = Lists.newArrayList();
     private int spawnDelay = 20;
     private WeightedSpawnerEntity spawnData = new WeightedSpawnerEntity();
-    private WeightedSpawnerEntity spawnOnce = new WeightedSpawnerEntity();
     private double mobRotation;
     private double prevMobRotation;
     private int minSpawnDelay = 200;
@@ -37,6 +37,7 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
     private int maxNearbyEntities = 6;
     private int activatingRangeFromPlayer = 16;
     private int spawnRange = 4;
+    private int requiredSpawnCount = 0;
     private boolean dirty = false;
 
     @Nullable
@@ -65,12 +66,12 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
         if (!this.isActivated()) {
             this.prevMobRotation = this.mobRotation;
         } else {
-            BlockPos blockpos = this.getSpawnerPosition();
+            BlockPos blockPos = this.getSpawnerPosition();
 
             if (this.getSpawnerWorld().isRemote) {
-                double d3 = (float) blockpos.getX() + this.getSpawnerWorld().rand.nextFloat();
-                double d4 = (float) blockpos.getY() + this.getSpawnerWorld().rand.nextFloat();
-                double d5 = (float) blockpos.getZ() + this.getSpawnerWorld().rand.nextFloat();
+                double d3 = (float) blockPos.getX() + this.getSpawnerWorld().rand.nextFloat();
+                double d4 = (float) blockPos.getY() + this.getSpawnerWorld().rand.nextFloat();
+                double d5 = (float) blockPos.getZ() + this.getSpawnerWorld().rand.nextFloat();
                 this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 IceAndFire.PROXY.spawnParticle(getParticle(), this.getSpawnerWorld(), d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 if (this.spawnDelay > 0) {
@@ -96,16 +97,16 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
                     NBTTagList tagList = tagCompound.getTagList("Pos", 6);
                     World world = this.getSpawnerWorld();
                     int j = tagList.tagCount();
-                    double d0 = j >= 1 ? tagList.getDoubleAt(0) : (double) blockpos.getX() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
-                    double d1 = j >= 2 ? tagList.getDoubleAt(1) : (double) (blockpos.getY() + world.rand.nextInt(3) - 1);
-                    double d2 = j >= 3 ? tagList.getDoubleAt(2) : (double) blockpos.getZ() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                    double d0 = j >= 1 ? tagList.getDoubleAt(0) : (double) blockPos.getX() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                    double d1 = j >= 2 ? tagList.getDoubleAt(1) : (double) (blockPos.getY() + world.rand.nextInt(3) - 1);
+                    double d2 = j >= 3 ? tagList.getDoubleAt(2) : (double) blockPos.getZ() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
                     Entity entity = AnvilChunkLoader.readWorldEntityPos(tagCompound, world, d0, d1, d2, false);
 
                     if (entity == null) {
                         return;
                     }
 
-                    int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).grow(this.spawnRange)).size();
+                    int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1)).grow(this.spawnRange)).size();
 
                     if (k >= this.maxNearbyEntities) {
                         this.resetTimer();
@@ -121,8 +122,16 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
                                 ((EntityLiving) entity).onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), null);
                         }
 
+                        if (this.requiredSpawnCount > 0) {
+                            this.requiredSpawnCount--;
+
+                            if (this.requiredSpawnCount == 0) {
+                                IceAndFire.NETWORK_WRAPPER.sendToAll(new MessageUpdateSpawner(blockPos.toLong(), this.requiredSpawnCount));
+                            }
+                        }
+
                         AnvilChunkLoader.spawnEntity(entity, world);
-                        world.playEvent(2004, blockpos, 0);
+                        world.playEvent(2004, blockPos, 0);
 
                         if (entityliving != null) {
                             entityliving.spawnExplosionParticle();
@@ -157,6 +166,7 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         this.spawnDelay = nbt.getShort("Delay");
+        this.requiredSpawnCount = nbt.getShort("RequiredSpawnCount");
         this.potentialSpawns.clear();
 
         if (nbt.hasKey("SpawnPotentials", 9)) {
@@ -201,6 +211,7 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
             return p_189530_1_;
         } else {
             p_189530_1_.setShort("Delay", (short) this.spawnDelay);
+            p_189530_1_.setShort("RequiredSpawnCount", (short) this.requiredSpawnCount);
             p_189530_1_.setShort("MinSpawnDelay", (short) this.minSpawnDelay);
             p_189530_1_.setShort("MaxSpawnDelay", (short) this.maxSpawnDelay);
             p_189530_1_.setShort("SpawnCount", (short) this.spawnCount);
@@ -227,8 +238,8 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
      * Sets the delay to minDelay if parameter given is 1, else return false.
      */
     @Override
-    public boolean setDelayToMin(int delay) {
-        if (delay == 1 && this.getSpawnerWorld().isRemote) {
+    public boolean setDelayToMin(int id) {
+        if (id == 1 && this.getSpawnerWorld().isRemote) {
             this.spawnDelay = this.minSpawnDelay;
             return true;
         } else {
@@ -237,6 +248,7 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
     }
 
     @SideOnly(Side.CLIENT)
+    @Override
     public Entity getCachedEntity() {
         if (this.cachedEntity == null || dirty) {
             this.cachedEntity = AnvilChunkLoader.readWorldEntity(this.spawnData.getNbt(), this.getSpawnerWorld(), false);
@@ -269,6 +281,14 @@ public abstract class SpawnerBaseLogic extends MobSpawnerBaseLogic {
 
     public void setDirty() {
         dirty = true;
+    }
+
+    public int getRequiredSpawnCount() {
+        return this.requiredSpawnCount;
+    }
+
+    public void setRequiredSpawnCount(int count) {
+        this.requiredSpawnCount = count;
     }
 
     @Override
