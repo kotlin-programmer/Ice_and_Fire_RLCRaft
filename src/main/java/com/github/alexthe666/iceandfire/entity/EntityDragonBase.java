@@ -1862,14 +1862,17 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
             this.setAttackTarget(null);
         }
         if (!this.world.isRemote) {
-            if (!this.isInWater() && !this.isSleeping() && this.onGround && !this.isFlying() && !this.isHovering() && this.getAttackTarget() == null && !this.isTimeToWake() && this.getRNG().nextInt(250) == 0 && this.getAttackTarget() == null && this.getPassengers().isEmpty()) {
-                this.setSleeping(true);
-            }
-            if (this.isSleeping() && (this.isFlying() || this.isHovering() || this.isInWater() || (this.world.canBlockSeeSky(new BlockPos(this)) && this.isTimeToWake() && !this.isTamed() || this.isTimeToWake() && this.isTamed()) || this.getAttackTarget() != null || !this.getPassengers().isEmpty())) {
-                this.setSleeping(false);
-            }
-            if (this.isSitting() && this.getControllingPassenger() != null) {
-                this.setSitting(false);
+            IEntityEffectCapability capability = InFCapabilities.getEntityEffectCapability(this);
+            if (capability != null && !capability.isStoned()) {
+                if (!this.isInWater() && !this.isSleeping() && this.onGround && !this.isFlying() && !this.isHovering() && this.getAttackTarget() == null && !this.isTimeToWake() && this.getRNG().nextInt(250) == 0 && this.getAttackTarget() == null && this.getPassengers().isEmpty()) {
+                    this.setSleeping(true);
+                }
+                if (this.isSleeping() && (this.isFlying() || this.isHovering() || this.isInWater() || (this.world.canBlockSeeSky(new BlockPos(this)) && this.isTimeToWake() && !this.isTamed() || this.isTimeToWake() && this.isTamed()) || this.getAttackTarget() != null || !this.getPassengers().isEmpty())) {
+                    this.setSleeping(false);
+                }
+                if (this.isSitting() && this.getControllingPassenger() != null) {
+                    this.setSitting(false);
+                }
             }
         }
     }
