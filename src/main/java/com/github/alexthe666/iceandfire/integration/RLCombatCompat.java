@@ -14,11 +14,11 @@ public class RLCombatCompat {
     public static void modifyAttackDamagePre(RLCombatModifyDamageEvent.Pre event) {
         EntityPlayer player = event.getEntityPlayer();
         Entity target = event.getTarget();
-        if(player == null || !(target instanceof EntityLivingBase) || event.getStack().isEmpty()) return;
+        if (player == null || !(target instanceof EntityLivingBase) || event.getStack().isEmpty()) return;
 
         Item item = event.getStack().getItem();
-        if(item instanceof IHitEffect) {
-            event.setDamageModifier(event.getDamageModifier() + ((IHitEffect)item).getHitEffectModifier((EntityLivingBase)target, player));
+        if (item instanceof IHitEffect) {
+            event.setDamageModifier(event.getDamageModifier() + ((IHitEffect) item).getHitEffectModifier((EntityLivingBase)target, player));
         }
     }
 }

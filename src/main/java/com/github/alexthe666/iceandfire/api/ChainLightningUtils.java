@@ -11,8 +11,6 @@ import com.github.alexthe666.iceandfire.message.MessageChainLightningFX;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -48,9 +46,16 @@ public class ChainLightningUtils {
             boolean isParalysisEnabled,
             int[] paralysisTicks
     ) {
+        if (!DragonUtils.isAlive(target)) {
+            return;
+        }
+
         int hop = 0;
 
-        attackEntityWithLightningDamage(attacker, target, hop, damage);
+        if (!attackEntityWithLightningDamage(attacker, target, hop, damage)) {
+            return;
+        }
+
         if (isParalysisEnabled) {
             applyParalysis(target, hop, paralysisTicks);
         }
@@ -108,11 +113,11 @@ public class ChainLightningUtils {
         }
     }
 
-    private static void attackEntityWithLightningDamage(EntityLivingBase attacker, EntityLivingBase target, int hop, float[] damage) {
+    private static boolean attackEntityWithLightningDamage(EntityLivingBase attacker, EntityLivingBase target, int hop, float[] damage) {
         // Crab => Larger Crab
         if (EventLiving.isQuarkCrab(target)) {
             strikeWithLightningBolt(target);
-            return;
+            return true;
         }
 
         DamageSource damageSource = new EntityDamageSourceIndirect("lightningBolt", attacker, attacker);
@@ -120,7 +125,7 @@ public class ChainLightningUtils {
             damageSource = damageSource.setDamageBypassesArmor();
         }
 
-        target.attackEntityFrom(damageSource, damage[hop]);
+        boolean flag = target.attackEntityFrom(damageSource, damage[hop]);
 
         // Creeper => Charged Creeper
         if (target instanceof EntityCreeper) {
@@ -132,6 +137,8 @@ public class ChainLightningUtils {
                 creeper.readEntityFromNBT(compound);
             }
         }
+
+        return flag;
     }
 
     private static void strikeWithLightningBolt(Entity entity) {
