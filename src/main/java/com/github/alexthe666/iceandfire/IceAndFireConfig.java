@@ -753,6 +753,11 @@ public class IceAndFireConfig {
 		@Config.RangeDouble(min = 1, max = 10000)
 		public double amphithereAttackStrength = 7D;
 
+		@Config.Comment("Maximum amphithere flight height, in Y height")
+		@Config.Name("Max Amphithere Flight Height")
+		@Config.RangeInt(min = 10, max = 1000)
+		public int maxAmphithereFlight = 128;
+
 		@Config.Comment("If true, Sea Serpents can break weak blocks in their way")
 		@Config.Name("Sea Serpent Griefing")
 		public boolean seaSerpentGriefing = true;

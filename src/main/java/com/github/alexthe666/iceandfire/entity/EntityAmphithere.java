@@ -42,7 +42,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class EntityAmphithere extends EntityTameable implements IAnimatedEntity, IPhasesThroughBlock, IFlapable, IDragonFlute, ISyncMount {
 
@@ -231,7 +230,7 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
     @Override
     public boolean attackEntityFrom(DamageSource source, float damage) {
         if (source.getTrueSource() instanceof EntityPlayer) {
-            if (!this.isTamed()  && this.isFlying() && !isOnGround() && source.isProjectile() && !world.isRemote) {
+            if (!world.isRemote && !this.isTamed()  && this.isFlying() && !isOnGround() && this.getPassengers().isEmpty() && source.isProjectile()) {
                 this.isFallen = true;
             }
             if (this.isTamed() && this.isRidingPlayer((EntityPlayer) source.getTrueSource())) {
@@ -888,33 +887,45 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
     }
 
 
-    public static BlockPos getPositionRelativeToGround(Entity entity, World world, double x, double z, Random rand) {
-        BlockPos pos = new BlockPos(x, entity.posY, z);
-        for (int yDown = 0; yDown < 6 + rand.nextInt(6); yDown++) {
-            if (!world.isAirBlock(pos.down(yDown))) {
-                return pos.up(yDown);
+    public BlockPos getPositionRelativeToGround(double x, double z) {
+        BlockPos pos = new BlockPos(x, this.posY, z);
+
+        pos = getPositionWithAdjustedHeight(pos);
+
+        int minHeightRelativeToGround = 6 + this.rand.nextInt(6);
+        for (int relativeY = 0; relativeY < minHeightRelativeToGround; relativeY++) {
+            if (!this.world.isAirBlock(pos.down(relativeY))) {
+                return pos.up(minHeightRelativeToGround - relativeY);
             }
         }
+
         return pos;
     }
 
-    public static BlockPos getPositionInOrbit(EntityAmphithere entity, BlockPos orbit) {
-        float possibleOrbitRadius = (entity.orbitRadius + 10.0F);
+    public BlockPos getPositionWithAdjustedHeight(BlockPos pos) {
+        int allowableHeightFromGround = IceAndFireConfig.ENTITY_SETTINGS.maxAmphithereFlight - this.world.getSeaLevel();
+        BlockPos groundPos = this.world.getHeight(pos);
+        int maxFlightHeight = Math.max(IceAndFireConfig.ENTITY_SETTINGS.maxAmphithereFlight, groundPos.getY() + allowableHeightFromGround);
+        return new BlockPos(pos.getX(), Math.min(pos.getY(), maxFlightHeight), pos.getY());
+    }
+
+    public BlockPos getPositionInOrbit(BlockPos orbit) {
+        float possibleOrbitRadius = (this.orbitRadius + 10.0F);
         float radius = 10;
-        if (entity.getCommand() == 2) {
-            if (entity.getOwner() != null) {
-                orbit = entity.getOwner().getPosition().up(7);
+        if (this.getCommand() == 2) {
+            if (this.getOwner() != null) {
+                orbit = this.getOwner().getPosition().up(7);
                 radius = 5;
             }
-        } else if (entity.hasHomePosition) {
-            orbit = entity.homePos.up(30);
+        } else if (this.hasHomePosition) {
+            orbit = this.homePos.up(30);
             radius = 30;
         }
         float angle = (0.01745329251F * possibleOrbitRadius);
         double extraX = radius * MathHelper.sin((float) (Math.PI + angle));
         double extraZ = radius * MathHelper.cos(angle);
         BlockPos radialPos = new BlockPos(orbit.getX() + extraX, orbit.getY(), orbit.getZ() + extraZ);
-        entity.orbitRadius = possibleOrbitRadius;
+        this.orbitRadius = possibleOrbitRadius;
         return radialPos;
     }
 
@@ -1028,7 +1039,7 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
                 return false;
             }
             if (EntityAmphithere.this.isFlying()) {
-                target = EntityAmphithere.getPositionRelativeToGround(EntityAmphithere.this, EntityAmphithere.this.world, EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.rand);
+                target = EntityAmphithere.this.getPositionRelativeToGround(EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15);
                 EntityAmphithere.this.orbitPos = null;
                 return (!EntityAmphithere.this.getMoveHelper().isUpdating() || EntityAmphithere.this.ticksStill >= 50);
             } else {
@@ -1056,7 +1067,7 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
 
         public void updateTask() {
             if (!isDirectPathBetweenPoints(EntityAmphithere.this)) {
-                target = EntityAmphithere.getPositionRelativeToGround(EntityAmphithere.this, EntityAmphithere.this.world, EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.rand);
+                target = EntityAmphithere.this.getPositionRelativeToGround(EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15);
             }
             if (world.isAirBlock(target)) {
                 getMoveHelper().setMoveTo((double) target.getX() + 0.5D, (double) target.getY() + 0.5D, (double) target.getZ() + 0.5D, 0.25D);
@@ -1079,8 +1090,8 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
                 return false;
             }
             if (EntityAmphithere.this.isFlying()) {
-                EntityAmphithere.this.orbitPos = EntityAmphithere.getPositionRelativeToGround(EntityAmphithere.this, EntityAmphithere.this.world, EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.rand);
-                target = EntityAmphithere.getPositionInOrbit(EntityAmphithere.this, EntityAmphithere.this.orbitPos);
+                EntityAmphithere.this.orbitPos = EntityAmphithere.this.getPositionRelativeToGround(EntityAmphithere.this.posX + EntityAmphithere.this.rand.nextInt(30) - 15, EntityAmphithere.this.posZ + EntityAmphithere.this.rand.nextInt(30) - 15);
+                target = EntityAmphithere.this.getPositionInOrbit(EntityAmphithere.this.orbitPos);
                 return true;
             } else {
                 return false;
@@ -1107,7 +1118,7 @@ public class EntityAmphithere extends EntityTameable implements IAnimatedEntity,
 
         public void updateTask() {
             if (!isDirectPathBetweenPoints()) {
-                target = EntityAmphithere.getPositionInOrbit(EntityAmphithere.this, EntityAmphithere.this.orbitPos);
+                target = EntityAmphithere.this.getPositionInOrbit(EntityAmphithere.this.orbitPos);
             }
             if (world.isAirBlock(target)) {
                 getMoveHelper().setMoveTo((double) target.getX() + 0.5D, (double) target.getY() + 0.5D, (double) target.getZ() + 0.5D, 0.25D);
