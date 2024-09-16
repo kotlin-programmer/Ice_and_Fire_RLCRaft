@@ -437,7 +437,9 @@ entity.myrmex_sentinel.name=Sentinela Mirmex
 entity.myrmex_royal.name=Realeza Mirmex
 entity.myrmex_egg.name=Huevo de Mirmex
 entity.amphithere.name=Anfiptero
+entity.amphitherearrow.name=Flecha de Anfiptero
 entity.seaserpent.name=Serpiente marina
+entity.seaserpentarrow.name=Flecha de la Marea
 entity.ghost.name=Fantasma
 entity.ghost_sword.name=Navaja fantasmal
 
