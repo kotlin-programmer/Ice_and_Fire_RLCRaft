@@ -469,7 +469,9 @@ entity.myrmex_sentinel.name=Myrmex Sentinel
 entity.myrmex_royal.name=Myrmex Royal
 entity.myrmex_egg.name=Myrmex Egg
 entity.amphithere.name=Amphithere
+entity.amphitherearrow.name=Amphithere Arrow
 entity.seaserpent.name=Sea Serpent
+entity.seaserpentarrow.name=Tide Arrow
 entity.ghost.name=Ghost
 entity.ghost_sword.name=Phantasmal Blade
 
