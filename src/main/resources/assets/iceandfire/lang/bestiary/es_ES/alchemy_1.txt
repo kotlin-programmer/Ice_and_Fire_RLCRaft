@@ -1,6 +1,6 @@
-Los cristales de invocación de dragones
-se fabrican para vincularse con un dragón
-y teletransportarlo a tu ubicación
+Los cristales de invocacion de dragones
+se craftean para vincularse con un dragon
+y teletransportarlo a tu ubicacion.
 
 
 
@@ -8,9 +8,10 @@ y teletransportarlo a tu ubicación
 
 
 
-Al interactuar con un dragón, el cristal se
-vincula a él. Usarlo en la misma dimensión
-teletransportará al dragón vinculado.
+Dar clic derecho a un dragon con este
+cristal hara que se vinculen.
+Usar el cristal en la misma dimension
+teletransportara al dragon vinculado.
 
-Para desvincular el cristal, colócalo en
-la cuadrícula de fabricación.
+Para desvincular el cristal, colocalo en
+la cuadricula de crafteo.

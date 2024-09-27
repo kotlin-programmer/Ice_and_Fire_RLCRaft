@@ -80,6 +80,19 @@ tile.iceandfire.crackledGravel.name=Cascalho Rachado
 tile.iceandfire.crackledGrassPath.name=Caminho de Grama Rachada
 tile.iceandfire.lightning_stone.name=Pedra Relâmpago
 
+tile.iceandfire.dread_stone.name=Medolita
+tile.iceandfire.dread_stone_bricks.name=Tijolos de Medolita
+tile.iceandfire.dread_stone_bricks_chiseled.name=Tijolos de Medolita Talhados
+tile.iceandfire.dread_stone_bricks_cracked.name=Tijolos de Medolita Rachados
+tile.iceandfire.dread_stone_bricks_mossy.name=Tijolos de Medolita com Musgo
+tile.iceandfire.dread_stone_face.name=Medolita Talhada com Caveira
+tile.iceandfire.dread_stone_tile.name=Piso de Medolita
+tile.iceandfire.dread_torch.name=Tocha de Medolita
+tile.iceandfire.dread_stone_slab.name=Laje de Tijolos de Medolita
+tile.iceandfire.dread_stone_stairs.name=Escada de Tijolos de Medolita
+tile.iceandfire.dread_spawner.name=Gerador de Monstros Medonhos
+tile.iceandfire.monster_spawner.name=Gerador de Monstros
+
 item.iceandfire.bestiary.name=Bestiário
 item.iceandfire.manuscript.name=Manuscrito
 item.iceandfire.sapphireGem.name=Safira
@@ -303,6 +316,19 @@ item.iceandfire.amphithere_skull.name=Crânio de Amphithere
 item.iceandfire.seaserpent_skull.name=Crânio de Serpente Marinha
 item.iceandfire.hydra_skull.name=Crânio de Hidra
 
+item.iceandfire.lich_staff.name=Cajado do Lich Medonho
+item.iceandfire.dread_shard.name=Fragmento Medonho
+item.iceandfire.dread_sword.name=Espada do Servo Pavoroso
+item.iceandfire.dread_knight_sword.name=Espada do Cavaleiro Medonho
+item.iceandfire.custom_banner.jei_desc=Tem um desenho de estandarte único!
+item.iceandfire.ghost_sword.name=Espada Fantasma
+item.iceandfire.ghost_sword.desc_0=Lança uma espada fantasma que atravessa blocos
+item.iceandfire.ectoplasm.name=Ectoplasma
+item.iceandfire.ghost_ingot.name=Barra Fantasmagórica
+item.iceandfire.ghost_ingot.desc_0=§6Item Raro§r
+
+item.iceandfire.dragon_collar.name=Coleira de Dragão
+
 item.banner.firedragon.white=Figura de Dragão de Fogo Branco
 item.banner.firedragon.orange=Figura de Dragão de Fogo Laranja
 item.banner.firedragon.magenta=Figura de Dragão de Fogo Magenta
@@ -408,6 +434,25 @@ entity.myrmex_royal.name=Myrmex Monarca
 entity.myrmex_egg.name=Ovo de Myrmex 
 entity.amphithere.name=Amphithere
 entity.seaserpent.name=Serpente Marinha
+
+entity.ghost.name=Fantasma
+entity.ghost_sword.name=Espada Fantasma
+
+entity.lightningdragon.name=Dragão Elétrico
+entity.dragonlightningcharge.name=Projétil de Dragão de Elétrico
+
+entity.dread_thrall.name=Servo Pavoroso
+entity.dread_ghoul.name=Canibal Atroz
+entity.dread_beast.name=Besta Horrífera
+entity.dread_scuttler.name=Aracnídeo Terrível
+entity.dread_lich.name=Lich Medonho
+entity.dread_lich_skull.name=Crânio do Lich Medonho
+entity.dread_knight.name=Cavaleiro Medonho
+entity.dread_horse.name=Cavalo Medonho
+
+entity.if_hydra.name=Hidra
+entity.hydra_breath.name=Bafo da Hidra
+entity.hydra_arrow.name=Flecha da Hidra
 
 entity.tide_trident.name=Tridente do Protetor da Maré
 

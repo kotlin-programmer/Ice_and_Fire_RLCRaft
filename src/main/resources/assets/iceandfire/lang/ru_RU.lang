@@ -82,6 +82,20 @@ tile.iceandfire.dragon_bone_block.name=Блок драконьих костей
 tile.iceandfire.dragon_bone_wall.name=Ограда из драконьих костей
 tile.iceandfire.ghost_chest.name=Проклятый сундук
 
+tile.iceandfire.dread_stone.name=Камень ужаса
+tile.iceandfire.dread_stone_bricks.name=Кирпичи ужаса
+tile.iceandfire.dread_stone_bricks_chiseled.name=Резные кирпичи ужаса
+tile.iceandfire.dread_stone_bricks_cracked.name=Потрескавшиеся кирпичи ужаса
+tile.iceandfire.dread_stone_bricks_mossy.name=Замшелые кирпичи ужаса
+tile.iceandfire.dread_stone_face.name=Камень ужаса с черепом
+tile.iceandfire.dread_stone_tile.name=Полированный камень ужаса
+tile.iceandfire.dread_torch.name=Dreadstone Torch
+tile.iceandfire.burnt_torch.name=Факел ужаса
+tile.iceandfire.dread_stone_slab.name=Плита из кирпичей ужаса
+tile.iceandfire.dread_stone_stairs.name=Ступеньки из кирпичей ужаса
+tile.iceandfire.dread_spawner.name=Спаунер мобов ужаса
+tile.iceandfire.monster_spawner.name=Спаунер мобов
+
 item.iceandfire.bestiary.name=Бестиарий
 item.iceandfire.manuscript.name=Манускрипт
 item.iceandfire.sapphireGem.name=Сапфир

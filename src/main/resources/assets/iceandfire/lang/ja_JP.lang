@@ -82,6 +82,20 @@ tile.iceandfire.ancient_dragon_bone_wall.name=古代ドラゴンの骨の壁
 tile.iceandfire.dragon_bone_block.name=ドラゴンの骨ブロック
 tile.iceandfire.dragon_bone_wall.name=ドラゴンの骨の壁
 
+tile.iceandfire.dread_stone.name=ドレッドストーン
+tile.iceandfire.dread_stone_bricks.name=ドレッドストーンレンガ
+tile.iceandfire.dread_stone_bricks_chiseled.name=彫刻されたドレッドストーンレンガ
+tile.iceandfire.dread_stone_bricks_cracked.name=ひび割れたドレッドストーンレンガ
+tile.iceandfire.dread_stone_bricks_mossy.name=苔むしたドレッドストーンレンガ
+tile.iceandfire.dread_stone_face.name=頭蓋骨柄ドレッドストーンレンガ
+tile.iceandfire.dread_stone_tile.name=ドレッドストーンタイル
+tile.iceandfire.dread_torch.name=ドレッドストーントーチ
+tile.iceandfire.burnt_torch.name=火が消えた松明
+tile.iceandfire.dread_stone_slab.name=ドレッドストーンレンガのハーフブロック
+tile.iceandfire.dread_stone_stairs.name=ドレッドストーンレンガの階段
+tile.iceandfire.dread_spawner.name=ドレッドストーンスポナー
+tile.iceandfire.monster_spawner.name=モンスタースポナー
+
 item.iceandfire.bestiary.name=ベスティアリ
 item.iceandfire.manuscript.name=手書きの紙片
 item.iceandfire.sapphireGem.name=サファイア
@@ -305,6 +319,12 @@ item.iceandfire.troll_skull.name=トロールの頭蓋骨
 item.iceandfire.amphithere_skull.name=アンピプテラの頭蓋骨
 item.iceandfire.seaserpent_skull.name=シーサーペントの頭蓋骨
 item.iceandfire.hydra_skull.name=ヒドラの頭蓋骨
+
+item.iceandfire.lich_staff.name=恐怖の魔術師の杖
+item.iceandfire.dread_shard.name=恐怖の欠片
+item.iceandfire.dread_sword.name=恐怖のしもべの剣
+item.iceandfire.dread_knight_sword.name=恐怖の騎士の剣
+item.iceandfire.custom_banner.jei_desc=旗の模様付けに使えます！
 
 #BANNERS
 item.banner.firedragon.white=白のファイアドラゴン
@@ -617,6 +637,15 @@ entity.seaserpent.name=シーサーペント
 
 entity.lightningdragon.name=ライトニングドラゴン
 entity.dragonlightningcharge.name=ドラゴンのライトニングチャージ
+
+entity.dread_thrall.name=ドレッドスレール
+entity.dread_ghoul.name=ドレッドグール
+entity.dread_beast.name=ドレッドビースト
+entity.dread_scuttler.name=ドレッドスカットラー
+entity.dread_lich.name=ドレッドリッチ
+entity.dread_lich_skull.name=ドレッドリッチの弾
+entity.dread_knight.name=ドレッドナイト
+entity.dread_horse.name=ドレッドナイトホース
 
 entity.if_hydra.name=ヒドラ
 entity.hydra_breath.name=ヒドラのブレス

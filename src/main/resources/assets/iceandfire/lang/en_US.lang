@@ -367,22 +367,22 @@ item.banner.icedragon.green=Green Ice Dragon
 item.banner.icedragon.red=Red Ice Dragon
 item.banner.icedragon.black=Black Ice Dragon
 
-item.banner.lightningdragon.white=White Lightning Dragon Charge
-item.banner.lightningdragon.orange=Orange Lightning Dragon Charge
-item.banner.lightningdragon.magenta=Magenta Lightning Dragon Charge
-item.banner.lightningdragon.light_blue=Light Blue Lightning Dragon Charge
-item.banner.lightningdragon.yellow=Yellow Lightning Dragon Charge
-item.banner.lightningdragon.lime=Lime Lightning Dragon Charge
-item.banner.lightningdragon.pink=Pink Lightning Dragon Charge
-item.banner.lightningdragon.gray=Gray Lightning Dragon Charge
-item.banner.lightningdragon.silver=Silver Lightning Dragon Charge
-item.banner.lightningdragon.cyan=Cyan Lightning Dragon Charge
-item.banner.lightningdragon.purple=Purple Lightning Dragon Charge
-item.banner.lightningdragon.blue=Blue Lightning Dragon Charge
-item.banner.lightningdragon.brown=Brown Lightning Dragon Charge
-item.banner.lightningdragon.green=Green Lightning Dragon Charge
-item.banner.lightningdragon.red=Red Lightning Dragon Charge
-item.banner.lightningdragon.black=Black Lightning Dragon Charge
+item.banner.lightningdragon.white=White Lightning Dragon
+item.banner.lightningdragon.orange=Orange Lightning Dragon
+item.banner.lightningdragon.magenta=Magenta Lightning Dragon
+item.banner.lightningdragon.light_blue=Light Blue Lightning Dragon
+item.banner.lightningdragon.yellow=Yellow Lightning Dragon
+item.banner.lightningdragon.lime=Lime Lightning Dragon
+item.banner.lightningdragon.pink=Pink Lightning Dragon
+item.banner.lightningdragon.gray=Gray Lightning Dragon
+item.banner.lightningdragon.silver=Silver Lightning Dragon
+item.banner.lightningdragon.cyan=Cyan Lightning Dragon
+item.banner.lightningdragon.purple=Purple Lightning Dragon
+item.banner.lightningdragon.blue=Blue Lightning Dragon
+item.banner.lightningdragon.brown=Brown Lightning Dragon
+item.banner.lightningdragon.green=Green Lightning Dragon
+item.banner.lightningdragon.red=Red Lightning Dragon
+item.banner.lightningdragon.black=Black Lightning Dragon
 
 item.banner.firedragon_head.white=White Fire Dragon Head 
 item.banner.firedragon_head.orange=Orange Fire Dragon Head 
@@ -657,6 +657,7 @@ entity.myrmex_royal.name=Myrmex Royal
 entity.myrmex_egg.name=Myrmex Egg
 entity.amphithere.name=Amphithere
 entity.seaserpent.name=Sea Serpent
+
 entity.ghost.name=Ghost
 entity.ghost_sword.name=Phantasmal Blade
 
