@@ -20,9 +20,10 @@ de los dragones de fuego y hielo,
 tiene su contraparte de rayo.
 
 
-Esto incuye: Armadura de escamas
-de dragon de rayo, armas de hueso
-de dragon de rayo y mas.
+Esto incluye: Armaduras de escama
+de dragon de rayo, botellas con
+sangre, armas de dragon electricas
+y mas.
 
 <item><iceandfire:dragonscales_amethyst 100 120 40 1>
 <item><iceandfire:armor_amethyst_helmet 100 140 30 1>
@@ -31,9 +32,8 @@ de dragon de rayo y mas.
 <item><iceandfire:lightning_dragon_heart 100 140 50 1>
 
 <item><iceandfire:lightning_dragon_flesh 100 120 60 1>
-<item><iceandfire:dragonbone_sword_lightning 100 160 60 1>
 <item><iceandfire:lightning_dragon_blood 100 140 70 1>
-
+<item><iceandfire:dragonbone_sword_lightning 100 160 60 1>
 
 
 

@@ -14,29 +14,31 @@ exoticos - el dragon de rayo.
 
 
 
-Zurcando los cielos nocturnos
-de las junglas, el
-dragon de rayo es nocturno, no
-como sus primos de fuego y hielo.
+Zurcando de noche los cielos de las
+junglas, el dragon de rayo es
+nocturno, no como sus primos de
+fuego y hielo.
 El dragon de rayo habita en nidos y
 cuevas llenos de bloques agrietados
-que han sido alcanzados por sus
-rayos. Asi como los dragones de
-fuego y hielo tienen afinidad por
-ciertos gemas, los dragones de rayo
-aman las amatistas y los diamantes.
+por sus rayos.
+Todo dragon tiene afinidad por
+ciertas gemas. Los dragones de
+rayo aman las Amatistas y los
+Diamantes.
 
 <item><iceandfire:amethyst_gem 100 170 36 1>
 <item><iceandfire:amethyst_ore 100 150 36 1>
 
 
 
-Además de encontrarse en las selvas,
-hay informes de que se han visto
-dragones relámpago fuera de las
-selvas: en la cima de altas
-montañas, en cañones profundos,
-en tierras baldías secas e incluso
-durante tormentas eléctricas. Sin
-embargo, estos informes no han
-sido confirmados.
+La Amatista solo se ve en el
+profundo subsuelo de las junglas.
+
+Ademas de las selvas, hay infor-
+mes de avistamientos de dragones
+de rayo en otros biomas: en la
+cima de altas Montanias, en
+caniones profundos, en Paramos
+e incluso durante tormentas
+electricas. Sin embargo, dichos
+informes no han sido confirmados.
