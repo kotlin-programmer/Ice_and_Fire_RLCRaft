@@ -1321,7 +1321,6 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
                 this.setSleeping(false);
                 this.setSitting(false);
                 this.hoverTicks = 0;
-                this.flyTicks = 0;
             }
             if (this.isFlying() && this.getAttackTarget() != null && this.attackDecision && this.isDirectPathBetweenPoints(this.getPositionVector(), this.getAttackTarget().getPositionVector())) {
                 this.setTackling(true);
@@ -1453,7 +1452,6 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
                         }
                         this.setHovering(false);
                         this.hoverTicks = 0;
-                        this.flyTicks = 0;
                     }
                 }
             }
@@ -1484,7 +1482,7 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
                 this.setFlying(false);
                 this.setHovering(!this.onGround);
                 if (this.onGround) {
-                    flyTicks = 0;
+                    this.hoverTicks = 0;
                 }
             }
             if (this.isFlying()) {
@@ -1499,14 +1497,12 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
                 this.setSleeping(false);
                 this.setSitting(false);
                 this.hoverTicks = 0;
-                this.flyTicks = 0;
             }
             if (this.getAttackTarget() != null && this.getAttackTarget().posY + 5 < this.posY && !this.isFlying() && !this.isChild() && !this.isHovering() && this.canMove() && this.onGround) {
                 this.setHovering(true);
                 this.setSleeping(false);
                 this.setSitting(false);
                 this.hoverTicks = 0;
-                this.flyTicks = 0;
             }
             if (this.isInWater()
                     && this.getAttackTarget() != null
@@ -1520,7 +1516,6 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
                 this.setSleeping(false);
                 this.setSitting(false);
                 this.hoverTicks = 0;
-                this.flyTicks = 0;
             }
             if (getAttackTarget() != null && this.isPlayerControlled()) {
                 this.setAttackTarget(null);
@@ -1885,6 +1880,7 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
         if (this.isFlying() && !this.isHovering() && this.isPlayerControlled() && !this.onGround && Math.max(Math.abs(motionZ), Math.abs(motionX)) < 0.1F) {
             this.setHovering(true);
             this.setFlying(false);
+            this.hoverTicks = 0;
         } else if (this.isHovering() && !this.isFlying() && this.isPlayerControlled() && !this.onGround && Math.max(Math.abs(motionZ), Math.abs(motionX)) > 0.1F) {
             this.setFlying(true);
             this.setHovering(false);
@@ -1894,6 +1890,7 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
         }
         if (!world.isRemote && this.spacebarTicks > 20 && this.isPlayerControlled() && !this.isFlying() && !this.isHovering()) {
             this.setHovering(true);
+            this.hoverTicks = 0;
         }
         if (world.isRemote && !this.isModelDead()) {
             roll_buffer.calculateChainFlapBuffer(50, 10, 4, this);
@@ -2141,7 +2138,6 @@ public abstract class EntityDragonBase extends EntityTameable implements IMultip
              if (!isFlying()) {
                 this.setFlying(true);
                 this.setHovering(false);
-                flyTicks = 0;
                 hoverTicks = 0;
             }
              if (this.getDistanceSquared(new Vec3d(airTarget.getX(), this.posY, airTarget.getZ())) < 3 && this.doesWantToLand()) {
